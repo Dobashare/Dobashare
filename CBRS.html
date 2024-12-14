@@ -1,0 +1,452 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DOBA REFERRAL SYSTEM</title>
+  <!-- Font Awesome for Facebook Icon -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    /* General Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #1b1b1b;
+      color: #eaeaea;
+      line-height: 1.6;
+    }
+
+    header {
+      background-color: #d32f2f;
+      color: white;
+      padding: 10px;
+      text-align: center;
+      position: relative;
+    }
+
+    header .site-title {
+      font-size: 1.2em;
+      margin: 0;
+      font-weight: bold;
+    }
+
+    /* Modal Styles */
+    .modal {
+      display: none; /* Hidden by default */
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.7); /* Black background with transparency */
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .modal-content {
+      background-color: #222;
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 500px;
+      width: 80%;
+      color: white;
+      text-align: center;
+      max-height: 80vh;
+      overflow-y: auto; /* Enable scrolling if content is too long */
+    }
+
+    .modal-content h2 {
+      margin-bottom: 20px;
+      font-size: 1.8em;
+      color: #d32f2f;
+    }
+
+    .modal-content p {
+      margin-bottom: 20px;
+      font-size: 1em;
+    }
+
+    .modal-content button {
+      background-color: #d32f2f;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1.1em;
+    }
+
+    .modal-content button:hover {
+      background-color: #b71c1c;
+    }
+
+    /* Menu Style */
+    .menu {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      cursor: pointer;
+      color: white;
+      font-size: 1.2em;
+      font-weight: bold;
+    }
+
+    .menu-content {
+      position: fixed;
+      top: 0;
+      left: -250px;
+      width: 250px;
+      height: 100%;
+      background-color: #222;
+      color: white;
+      box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
+      padding: 20px;
+      transition: left 0.3s ease;
+    }
+
+    .menu-content h3 {
+      font-size: 1.4em;
+      margin-bottom: 15px;
+      border-bottom: 1px solid #444;
+      padding-bottom: 5px;
+    }
+
+    .menu-content p {
+      font-size: 0.9em;
+      margin-bottom: 15px;
+    }
+
+    .menu-content a {
+      color: #d32f2f;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .menu-content a:hover {
+      text-decoration: underline;
+    }
+
+    .menu-content .close {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      cursor: pointer;
+      font-size: 1.2em;
+    }
+
+    .menu-content.active {
+      left: 0;
+    }
+
+    main {
+      max-width: 800px;
+      margin: 30px auto;
+      padding: 20px;
+      background: #222;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    section {
+      margin-bottom: 20px;
+    }
+
+    .welcome p {
+      font-size: 1.2em;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .referral-link {
+      display: block;
+      width: 200px;
+      margin: 20px auto;
+      padding: 10px 20px;
+      font-size: 1.1em;
+      color: white;
+      background-color: #d32f2f;
+      text-decoration: none;
+      border-radius: 5px;
+      font-weight: bold;
+      text-align: center;
+      transition: background-color 0.3s;
+    }
+
+    .referral-link:hover {
+      background-color: #b71c1c;
+    }
+
+    h2 {
+      font-size: 1.8em;
+      color: #d32f2f;
+      margin-bottom: 15px;
+      text-align: center;
+    }
+
+    ol {
+      margin-left: 20px;
+      padding-left: 10px;
+    }
+
+    ol li {
+      margin-bottom: 20px;
+      font-size: 1.1em;
+    }
+
+    .step-image {
+      display: block;
+      margin: 10px 0;
+      max-width: 100%;
+      border-radius: 5px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    footer {
+      text-align: center;
+      padding: 15px;
+      background: #111;
+      border-top: 1px solid #444;
+      font-size: 0.9em;
+      color: #aaa;
+    }
+
+    footer p {
+      margin: 0;
+    }
+
+    .facebook-button {
+      background-color: #3b5998;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1.1em;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+
+    .facebook-button i {
+      font-size: 1.5em;
+    }
+
+    .facebook-button:hover {
+      background-color: #365899;
+    }
+
+    .notice {
+      font-size: 0.8em;
+      color: red;
+      margin-top: 10px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <!-- User Agreement Modal -->
+  <div class="modal" id="userAgreementModal">
+    <div class="modal-content">
+      <h2>User Agreement</h2>
+      <p>
+        Please read and accept the following terms before proceeding. Your continued use of the site indicates your agreement to these terms.
+        <br><br>
+
+        The Services may include certain communication to the user from Doba, such as service announcements, administrative messages, and/or newsletters. You may be prompted to opt into some and/or all communication types upon registering for an account, a Membership, or your direct access to the Services. After you have opted into Doba’s communication types, you may opt out of receiving any/and all communications at any time. However, Doba’s service announcements and/or administrative messages are not eligible to be opted out of and are required to be sent to any active registered account with Doba. If you wish to discontinue these announcements and/or messages, your Doba account is required to be permanently deleted by either you or Doba.
+
+        Miscellaneous Provisions
+        Your Relationship with Doba
+
+        You, either as an influencer and/or a direct purchaser of products through the Services, are an independent contractor of Doba and are not considered an employee of Doba for any reason whatsoever. You are prohibited from making any unauthorized representations, warranties, or claims on behalf of Doba, a product manufacturer, or that are otherwise illegal in your applicable jurisdiction. No agency, partnership, joint venture, or employment is created as a result of these Terms and you do not have any or all authority of any and all kind to bind Doba in any respect for any reason whatsoever.
+      </p>
+      <button id="acceptButton">OK</button>
+    </div>
+  </div>
+
+  <header>
+    <div class="menu">☰</div>
+    <h1 class="site-title">DOBA REFERRAL SYSTEM</h1>
+  </header>
+  <div class="menu-content">
+    <span class="close">✖</span>
+    <h3>Privacy Concern</h3>
+    <p>All personal information collected is stored securely and not shared with third-party services. The collected info (like screenshots, email, and number) is used only for verification purposes.</p>
+    <h3>About</h3>
+    <p>This website is used solely for referral purposes. We are a partner of DOBA Share. DOBA Share is a referral platform that lets users earn rewards for inviting others to join.</p>
+    <h3>Customer Support</h3>
+    <p>Email: <a href="mailto:dobasharecs@gmail.com">dobasharecs@gmail.com</a></p>
+  </div>
+
+  <main>
+    <section class="welcome">
+      <p>Welcome to <strong>DOBA Referral System</strong>. Earn free 10 pesos by creating an account in this link (new users only):</p>
+      <a href="https://www.doba.com.ph/doba-share/s/cyDwsdFFYKbO?c=2" class="referral-link" target="_blank">CLICK TO PROCEED</a>
+    </section>
+    <section class="steps">
+      <h2>Steps on How to Earn Free 10 Pesos:</h2>
+      <ol>
+       
+     <p>    
+  <strong>Step 1:</strong> Create an account using your phone number in the link.
+  <img 
+    src="https://i.ibb.co/s6SmLYt/i-Markup-20241214-135035.jpg" 
+    alt="i-Markup-20241214-135035" 
+    border="0"
+    style="width:100%; max-width: 100%; height: auto;" 
+    oncontextmenu="return false;" 
+    onmousedown="return false;" 
+    onclick="return false;" 
+    draggable="false" 
+  />
+</p>
+
+
+        <p>
+          <strong>Step 2:</strong> Fill the form with required information (note: use only phone number)
+        <img
+        src="https://i.ibb.co/6ZKT3px/IMG-20241214-134643.jpg" 
+            alt="i-Markup-20241214-134643" 
+                border="0"
+                    style="width:100%; max-width: 100%; height: auto;" 
+                        oncontextmenu="return false;" 
+                            onmousedown="return false;" 
+                                onclick="return false;" 
+                                    draggable="false" 
+                           
+                                      </p>
+        <p>
+          <strong>Step 3:</strong> Install the app, open it, and log in using your phone number.</strong>
+              <img 
+        src="https://i.ibb.co/m4DKk2y/IMG-20241214-134746.jpg" 
+            alt="i-Markup-20241214-134643" 
+                border="0"
+                    style="width:100%; max-width: 100%; height: 550px;" 
+                        oncontextmenu="return false;" 
+                            onmousedown="return false;" 
+                                onclick="return false;" 
+                                    draggable="false" 
+                                      />
+                                      </p>
+          <strong>Step 4:</strong> Go to the account section and click <strong>Points</strong>.
+            <img 
+        src="https://i.ibb.co/DD8zg0y/i-Markup-20241214-135215.jpg" 
+            alt="i-Markup-20241214-134643" 
+                border="0"
+                    style="width:100%; max-width: 100%; height: auto;" 
+                        oncontextmenu="return false;" 
+                            onmousedown="return false;" 
+                                onclick="return false;" 
+                                    draggable="false" 
+                                      />
+                                      </p>
+        <p>
+          <strong>Step 5:</strong> Click <strong>Verify email</strong>
+              <img 
+        src="https://i.ibb.co/8xP0R5r/i-Markup-20241214-135249.jpg" 
+            alt="i-Markup-20241214-134643" 
+                border="0"
+                    style="width:100%; max-width: 100%; height: auto;" 
+                        oncontextmenu="return false;" 
+                            onmousedown="return false;" 
+                                onclick="return false;" 
+                                    draggable="false" 
+                                      />
+                </p>
+                                      <p>
+  <strong>Step 6:</strong> Once email has been <strong>Verified</strong> screenshot your email and phone number (as shown in the picture)
+    <img 
+        src="https://i.ibb.co/TrD4QgS/IMG-20241214-134816.jpg" 
+            alt="i-Markup-20241214-134643" 
+                border="0"
+                    style="width:100%; max-width: 100%; height: auto;" 
+                        oncontextmenu="return false;" 
+                            onmousedown="return false;" 
+                                onclick="return false;" 
+                                    draggable="false" 
+                                      />
+                                      </p>
+          
+          
+          
+          
+         <p>
+  <strong>Step 7:</strong> Send your Screenshot photo along with your EMAIL that you used in your account and GCASH NUMBER to our customer service to claim your reward
+      <img 
+              src="https://i.ibb.co/zGsF8b4/IMG-20241214-134829.jpg" 
+                          alt="i-Markup-20241214-134643" 
+                                          border="0"
+                                                              style="width:100%; max-width: 100%; height: auto;" 
+                                                                                      oncontextmenu="return false;" 
+                                                                                                                  onmousedown="return false;" 
+                                                                                                                                                  onclick="return false;" 
+                                                                                                                                                                                      draggable="false" 
+                                                                                                            />
+                                                                                                                                                                                                                                                                  </p>
+          <a href="https://www.facebook.com/doba.referral.system.cs" class="facebook-button" id="customerServiceButton" target="_blank">
+            <i class="fab fa-facebook-f"></i> Customer Service
+          </a>
+        </li>
+      </ol>
+      <!-- Notice added below the customer service button -->
+      <p class="notice">
+        Please note: This program is exclusively for new users. Any user found to be in violation of this policy will not be eligible for rewards. We will process your reward within 1-2 days after you have successfully joined the program.
+       
+      </p>
+    </section>
+  </main>
+
+  <footer>
+    <p>All rights reserved doba referral system @2024-2025
+   </p>
+  </footer>
+
+  <script>
+    // Show the user agreement modal on page load
+    window.onload = function() {
+      if (!localStorage.getItem("userAgreed")) {
+        document.getElementById("userAgreementModal").style.display = "flex";
+      }
+    }
+
+    // Accept button action
+    document.getElementById("acceptButton").addEventListener("click", function() {
+      localStorage.setItem("userAgreed", "true");
+      document.getElementById("userAgreementModal").style.display = "none";
+    });
+
+    // Menu Toggle
+    const menu = document.querySelector('.menu');
+    const menuContent = document.querySelector('.menu-content');
+    const closeMenu = document.querySelector('.menu-content .close');
+
+    menu.addEventListener('click', () => {
+      // Close the modal if it's visible
+      document.getElementById("userAgreementModal").style.display = "none";
+      menuContent.classList.add('active');
+    });
+
+    closeMenu.addEventListener('click', () => {
+      menuContent.classList.remove('active');
+    });
+
+    // Handle Customer Service Button Click
+    let clicked = false;
+    document.getElementById("customerServiceButton").addEventListener("click", function(event) {
+      if (clicked) {
+        event.preventDefault(); // Prevent redirection
+        alert("You have already participated in this program. Please use another device to participate again. Thank you.");
+      } else {
+        clicked = true;
+      }
+    });
+  </script>
+</body>
+</html>
